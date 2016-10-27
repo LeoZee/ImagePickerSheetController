@@ -44,7 +44,7 @@ open class ImagePickerAction : NSObject {
     /// Secondary title defaults to title if not specified.
     /// Secondary handler defaults to handler if not specified.
     public convenience init(title: String, secondaryTitle: String? = nil, style: ImagePickerActionStyle = .default, handler: @escaping Handler, secondaryHandler: SecondaryHandler? = nil) {
-        let secTitleFunction:Title = { _ in return secondaryTitle ?? "" }
+        let secTitleFunction:Title = { _ in return secondaryTitle ?? title }
         self.init(title: title, secondaryTitle: secTitleFunction, style: style, handler: handler, secondaryHandler: secondaryHandler)
     }
     
