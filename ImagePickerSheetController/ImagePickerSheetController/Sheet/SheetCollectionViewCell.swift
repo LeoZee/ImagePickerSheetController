@@ -37,7 +37,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    var separatorColor = UIColor.blackColor() {
+	var separatorColor = UIColor.black {
         didSet {
             separatorView?.backgroundColor = separatorColor
         }
@@ -51,19 +51,19 @@ class SheetCollectionViewCell: UICollectionViewCell {
     
     private var separatorView: UIView?
     
-    override var highlighted: Bool {
+	override var isHighlighted: Bool {
         didSet {
             reloadBackgroundColor()
         }
     }
     
-    var highlightedBackgroundColor: UIColor = .clearColor() {
+    var highlightedBackgroundColor: UIColor = .clear {
         didSet {
             reloadBackgroundColor()
         }
     }
     
-    var normalBackgroundColor: UIColor = .clearColor() {
+    var normalBackgroundColor: UIColor = .clear {
         didSet {
             reloadBackgroundColor()
         }
@@ -115,35 +115,35 @@ class SheetCollectionViewCell: UICollectionViewCell {
             let maskLayer = CAShapeLayer()
             maskLayer.frame = bounds
             maskLayer.lineWidth = 0
-            maskLayer.fillColor = UIColor.blackColor().CGColor
+            maskLayer.fillColor = UIColor.black.cgColor
             
             layer.mask = maskLayer
         }
 
         let layerMask = layer.mask as? CAShapeLayer
         layerMask?.frame = bounds
-        layerMask?.path = maskPathWithRect(UIEdgeInsetsInsetRect(bounds, backgroundInsets), roundedCorner: roundedCorners)
+		layerMask?.path = maskPathWithRect(rect: bounds.inset(by: backgroundInsets), roundedCorner: roundedCorners)
     }
     
-    private func maskPathWithRect(rect: CGRect, roundedCorner: RoundedCorner) -> CGPathRef {
+	private func maskPathWithRect(rect: CGRect, roundedCorner: RoundedCorner) -> CGPath {
         let radii: CGFloat
         let corners: UIRectCorner
         
         switch roundedCorner {
         case .All(let value):
-            corners = .AllCorners
+			corners = .allCorners
             radii = value
         case .Top(let value):
-            corners = [.TopLeft, .TopRight]
+			corners = [.topLeft, .topRight]
             radii = value
         case .Bottom(let value):
-            corners = [.BottomLeft, .BottomRight]
+			corners = [.bottomLeft, .bottomRight]
             radii = value
         case .None:
-            return UIBezierPath(rect: rect).CGPath
+			return UIBezierPath(rect: rect).cgPath
         }
         
-        return UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii)).CGPath
+		return UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radii, height: radii)).cgPath
     }
     
     // MARK: - Separator
@@ -167,7 +167,7 @@ class SheetCollectionViewCell: UICollectionViewCell {
     // MARK - Background
     
     private func reloadBackgroundColor() {
-        backgroundColor = highlighted ? highlightedBackgroundColor : normalBackgroundColor
+		backgroundColor = isHighlighted ? highlightedBackgroundColor : normalBackgroundColor
     }
     
 }

@@ -15,7 +15,7 @@ class SheetActionCollectionViewCell: SheetCollectionViewCell {
     lazy private(set) var textLabel: UILabel = {
         let label = UILabel()
         label.textColor = self.tintColor
-        label.textAlignment = .Center
+		label.textAlignment = .center
         
         self.addSubview(label)
         
@@ -43,15 +43,15 @@ class SheetActionCollectionViewCell: SheetCollectionViewCell {
     }
     
     // MARK: - Accessibility
-    
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        guard context == &KVOContext else {
-            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
-            return
-        }
-        
-        accessibilityLabel = textLabel.text
-    }
+	
+	override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+		guard context == &KVOContext else {
+			super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+			return
+		}
+		
+		accessibilityLabel = textLabel.text
+	}
     
     // MARK: -
     
@@ -64,7 +64,7 @@ class SheetActionCollectionViewCell: SheetCollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        textLabel.frame = UIEdgeInsetsInsetRect(bounds, backgroundInsets)
+        textLabel.frame = bounds.inset(by: backgroundInsets)
     }
     
 }

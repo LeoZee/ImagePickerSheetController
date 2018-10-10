@@ -12,31 +12,31 @@ class SheetCollectionViewLayout: UICollectionViewLayout {
 
     private var layoutAttributes = [[UICollectionViewLayoutAttributes]]()
     private var invalidatedLayoutAttributes: [[UICollectionViewLayoutAttributes]]?
-    private var contentSize = CGSizeZero
+    private var contentSize = CGSize.zero
     
     // MARK: - Layout
     
-    override func prepareLayout() {
-        super.prepareLayout()
+	override func prepare() {
+		super.prepare()
         
-        layoutAttributes.removeAll(keepCapacity: false)
-        contentSize = CGSizeZero
+		layoutAttributes.removeAll(keepingCapacity: false)
+        contentSize = CGSize.zero
         
         if let collectionView = collectionView,
-            dataSource = collectionView.dataSource,
-            delegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout {
-                let sections = dataSource.numberOfSectionsInCollectionView?(collectionView) ?? 0
+			let dataSource = collectionView.dataSource,
+			let delegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout {
+			let sections = dataSource.numberOfSections?(in: collectionView) ?? 0
                 var origin = CGPoint()
                 
                 for section in 0 ..< sections {
                     var sectionAttributes = [UICollectionViewLayoutAttributes]()
                     let items = dataSource.collectionView(collectionView, numberOfItemsInSection: section)
-                    let indexPaths = (0 ..< items).map { NSIndexPath(forItem: $0, inSection: section) }
+					let indexPaths = (0 ..< items).map { NSIndexPath(item: $0, section: section) }
                     
                     for indexPath in indexPaths {
-                        let size = delegate.collectionView?(collectionView, layout: self, sizeForItemAtIndexPath: indexPath) ?? CGSizeZero
-                        
-                        let attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
+						let size = delegate.collectionView!(collectionView, layout: self, sizeForItemAt: indexPath as IndexPath)
+						
+						let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath as IndexPath)
                         attributes.frame = CGRect(origin: origin, size: size)
                         
                         sectionAttributes.append(attributes)
@@ -50,7 +50,7 @@ class SheetCollectionViewLayout: UICollectionViewLayout {
         }
     }
     
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+	override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
     
@@ -58,14 +58,14 @@ class SheetCollectionViewLayout: UICollectionViewLayout {
         invalidatedLayoutAttributes = layoutAttributes
         super.invalidateLayout()
     }
-    
-    override func collectionViewContentSize() -> CGSize {
-        return contentSize
-    }
-    
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        return layoutAttributes.reduce([], combine: +)
-                               .filter { CGRectIntersectsRect(rect, $0.frame) }
+	
+	override var collectionViewContentSize: CGSize {
+		return contentSize
+	}
+	
+	override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        return layoutAttributes.reduce([], +)
+			.filter { rect.intersects($0.frame) }
     }
     
     private func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath, allAttributes: [[UICollectionViewLayoutAttributes]]) -> UICollectionViewLayoutAttributes? {
@@ -81,19 +81,19 @@ class SheetCollectionViewLayout: UICollectionViewLayout {
             return nil
         }
         
-        return layoutAttributesForItemAtIndexPath(indexPath, allAttributes: invalidatedLayoutAttributes)
+		return layoutAttributesForItemAtIndexPath(indexPath: indexPath, allAttributes: invalidatedLayoutAttributes)
     }
-    
-    override func layoutAttributesForItemAtIndexPath(indexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        return layoutAttributesForItemAtIndexPath(indexPath, allAttributes: layoutAttributes)
-    }
-    
-    override func initialLayoutAttributesForAppearingItemAtIndexPath(itemIndexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        return invalidatedLayoutAttributesForItemAtIndexPath(itemIndexPath) ?? layoutAttributesForItemAtIndexPath(itemIndexPath)
-     }
-    
-    override func finalLayoutAttributesForDisappearingItemAtIndexPath(itemIndexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
-        return layoutAttributesForItemAtIndexPath(itemIndexPath)
-    }
-    
+	
+	override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+		return layoutAttributesForItemAtIndexPath(indexPath: indexPath as NSIndexPath, allAttributes: layoutAttributes)
+	}
+	
+	override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+		return invalidatedLayoutAttributesForItemAtIndexPath(indexPath: itemIndexPath as NSIndexPath) ?? layoutAttributesForItemAtIndexPath(indexPath: itemIndexPath as NSIndexPath, allAttributes: layoutAttributes)
+	}
+	
+	override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+		return layoutAttributesForItemAtIndexPath(indexPath: itemIndexPath as NSIndexPath, allAttributes: layoutAttributes)
+	}
+	
 }

@@ -15,7 +15,7 @@ public enum ImagePickerActionStyle : Int {
 
 public class ImagePickerAction : NSObject {
     
-    public typealias Title = Int -> String
+	public typealias Title = (Int) -> String
     public typealias Handler = (ImagePickerAction) -> ()
     public typealias SecondaryHandler = (ImagePickerAction, Int) -> ()
     
@@ -41,16 +41,9 @@ public class ImagePickerAction : NSObject {
     }
     
     /// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
-    /// Secondary title defaults to title if not specified.
-    /// Secondary handler defaults to handler if not specified.
-    public convenience init(title: String, secondaryTitle: String? = nil, style: ImagePickerActionStyle = .Default, handler: Handler, secondaryHandler: SecondaryHandler? = nil) {
-        self.init(title: title, secondaryTitle: secondaryTitle.map { string in { _ in string }}, style: style, handler: handler, secondaryHandler: secondaryHandler)
-    }
-    
-    /// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
     /// Secondary title defaults to title if not specified. Use the closure to format a title according to the selection.
     /// Secondary handler defaults to handler if not specified
-    public init(title: String, secondaryTitle: Title?, style: ImagePickerActionStyle = .Default, handler: Handler, secondaryHandler secondaryHandlerOrNil: SecondaryHandler? = nil) {
+	public init(title: String, secondaryTitle: Title?, style: ImagePickerActionStyle = .Default, handler: @escaping Handler, secondaryHandler secondaryHandlerOrNil: SecondaryHandler? = nil) {
         
         var secondaryHandler = secondaryHandlerOrNil
         if secondaryHandler == nil {
@@ -77,7 +70,7 @@ public class ImagePickerAction : NSObject {
     
 }
 
-func ?? (left: ImagePickerAction.Title?, right: ImagePickerAction.Title) -> ImagePickerAction.Title {
+func ?? (left: ImagePickerAction.Title?, right: @escaping ImagePickerAction.Title) -> ImagePickerAction.Title {
     if let left = left {
         return left
     }

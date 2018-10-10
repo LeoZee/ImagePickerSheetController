@@ -23,36 +23,32 @@ class AnimationController: NSObject {
     // MARK: - Animation
     
     private func animatePresentation(context: UIViewControllerContextTransitioning) {
-        guard let containerView = context.containerView() else {
-            return
-        }
+		let containerView = context.containerView
         
         containerView.addSubview(imagePickerSheetController.view)
         
         let sheetOriginY = imagePickerSheetController.sheetCollectionView.frame.origin.y
         imagePickerSheetController.sheetCollectionView.frame.origin.y = containerView.bounds.maxY
         imagePickerSheetController.backgroundView.alpha = 0
-        
-        UIView.animateWithDuration(transitionDuration(context), delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.9, options: .BeginFromCurrentState, animations: { () -> Void in
-            self.imagePickerSheetController.sheetCollectionView.frame.origin.y = sheetOriginY
-            self.imagePickerSheetController.backgroundView.alpha = 1
-        }, completion: { _ in
-            context.completeTransition(true)
-        })
+		
+		UIView.animate(withDuration: transitionDuration(using: context), delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.9, options: .beginFromCurrentState, animations: {
+			self.imagePickerSheetController.sheetCollectionView.frame.origin.y = sheetOriginY
+			self.imagePickerSheetController.backgroundView.alpha = 1
+		}) { _ in
+			context.completeTransition(true)
+		}
     }
     
     private func animateDismissal(context: UIViewControllerContextTransitioning) {
-        guard let containerView = context.containerView() else {
-            return
-        }
-        
-        UIView.animateWithDuration(transitionDuration(context), delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1.0, options: .BeginFromCurrentState, animations: { () -> Void in
-            self.imagePickerSheetController.sheetCollectionView.frame.origin.y = containerView.bounds.maxY
-            self.imagePickerSheetController.backgroundView.alpha = 0
-        }, completion: { _ in
-            self.imagePickerSheetController.view.removeFromSuperview()
-            context.completeTransition(true)
-        })
+		let containerView = context.containerView
+		
+		UIView.animate(withDuration: transitionDuration(using: context), delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1.0, options: .beginFromCurrentState, animations: {
+			self.imagePickerSheetController.sheetCollectionView.frame.origin.y = containerView.bounds.maxY
+			self.imagePickerSheetController.backgroundView.alpha = 0
+		}) { _ in
+			self.imagePickerSheetController.view.removeFromSuperview()
+			context.completeTransition(true)
+		}
     }
     
 }
@@ -60,16 +56,16 @@ class AnimationController: NSObject {
 // MARK: - UIViewControllerAnimatedTransitioning
 extension AnimationController: UIViewControllerAnimatedTransitioning {
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+	func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.5
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+	func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         if presenting {
-            animatePresentation(transitionContext)
+			animatePresentation(context: transitionContext)
         }
         else {
-            animateDismissal(transitionContext)
+			animateDismissal(context: transitionContext)
         }
     }
     
