@@ -7,18 +7,37 @@
 //
 
 import UIKit
+import Photos
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow? = {
-        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window.backgroundColor = .whiteColor()
+		let window = UIWindow(frame: UIScreen.main.bounds)
+        window.backgroundColor = .white
         
         return window
     }()
+	
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+		window?.rootViewController = ViewController()
+		window?.makeKeyAndVisible()
+		
+		let photos = PHPhotoLibrary.authorizationStatus()
+		if photos == .notDetermined {
+			PHPhotoLibrary.requestAuthorization({status in
+				if status == .authorized{
+					
+				} else {
+					
+				}
+			})
+		}
+		
+		return true
+	}
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
+	private func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool {
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
         

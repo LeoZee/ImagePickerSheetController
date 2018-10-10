@@ -151,7 +151,7 @@ class SheetController: NSObject {
     
     // MARK: - Actions
     func reloadActionItems() {
-		sheetCollectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
+//		sheetCollectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
     }
     
     func addAction(action: ImagePickerAction) {
