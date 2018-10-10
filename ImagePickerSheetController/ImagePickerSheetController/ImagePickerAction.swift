@@ -43,7 +43,7 @@ public class ImagePickerAction : NSObject {
     /// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
     /// Secondary title defaults to title if not specified. Use the closure to format a title according to the selection.
     /// Secondary handler defaults to handler if not specified
-	public init(title: String, secondaryTitle: Title?, style: ImagePickerActionStyle = .Default, handler: @escaping Handler, secondaryHandler secondaryHandlerOrNil: SecondaryHandler? = nil) {
+	public init(title: String, secondaryTitle: Title? = nil, style: ImagePickerActionStyle = .Default, handler: @escaping Handler, secondaryHandler secondaryHandlerOrNil: SecondaryHandler? = nil) {
         
         var secondaryHandler = secondaryHandlerOrNil
         if secondaryHandler == nil {
