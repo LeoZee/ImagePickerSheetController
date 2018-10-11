@@ -39,6 +39,21 @@ public class ImagePickerAction : NSObject {
         self.handler = nil
         self.secondaryHandler = nil
     }
+	
+	/// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
+	/// Secondary title defaults to title if not specified.
+	/// Secondary handler defaults to handler if not specified.
+	public convenience init(title: String, secondaryTitle: String? = nil, style: ImagePickerActionStyle = .Default, handler: @escaping Handler, secondaryHandler: SecondaryHandler? = nil) {
+		let secTitle: Title?
+		if let secondaryTitle = secondaryTitle {
+			secTitle = { int in
+				return secondaryTitle
+			}
+		} else {
+			secTitle = nil
+		}
+		self.init(title: title, secondaryTitle: secTitle, style: style, handler: handler, secondaryHandler: secondaryHandler)
+	}
     
     /// Initializes a new ImagePickerAction. The secondary title and handler are used when at least 1 image has been selected.
     /// Secondary title defaults to title if not specified. Use the closure to format a title according to the selection.
