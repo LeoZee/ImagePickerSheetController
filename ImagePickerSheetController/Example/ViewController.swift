@@ -43,10 +43,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //			self.present(controller, animated: true, completion: nil)
 //        }
 		
-        let controller = ImagePickerSheetController(mediaType: .Image)
+        let controller = ImagePickerSheetController(mediaType: .image)
         controller.maximumSelection = 3
 		
-		controller.addAction(action: ImagePickerAction(title: NSLocalizedString("Take Photo Or Video", comment: "Action Title"), secondaryTitle: { _ -> String in
+		controller.addAction(ImagePickerAction(title: NSLocalizedString("Take Photo Or Video", comment: "Action Title"), secondaryTitle: { _ -> String in
 			NSLocalizedString("Add comment", comment: "Action Title")
 		}, style: ImagePickerActionStyle.Default, handler: { _ in
 			self.presentImagePickerController(.camera)
@@ -54,7 +54,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 			print("Send \(controller.selectedImageAssets)")
 		}))
 		
-		controller.addAction(action: ImagePickerAction(title: NSLocalizedString("Photo Library", comment: "Action Title"), secondaryTitle: { NSString.localizedStringWithFormat(NSLocalizedString("ImagePickerSheet.button1.Send %lu Photo", comment: "Action Title") as NSString, $0) as String}, handler: { _ in
+		controller.addAction(ImagePickerAction(title: NSLocalizedString("Photo Library", comment: "Action Title"), secondaryTitle: { NSString.localizedStringWithFormat(NSLocalizedString("ImagePickerSheet.button1.Send %lu Photo", comment: "Action Title") as NSString, $0) as String}, handler: { _ in
 			self.presentImagePickerController(.photoLibrary)
         }, secondaryHandler: { _, numberOfPhotos in
             
@@ -63,7 +63,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
         controller.enableEnlargedPreviews = false;
 
-		controller.addAction(action: ImagePickerAction(cancelTitle: NSLocalizedString("Cancel", comment: "Action Title")))
+		controller.addAction(ImagePickerAction(cancelTitle: NSLocalizedString("Cancel", comment: "Action Title")))
 
 		if UIDevice.current.userInterfaceIdiom == .pad {
 			controller.modalPresentationStyle = .popover

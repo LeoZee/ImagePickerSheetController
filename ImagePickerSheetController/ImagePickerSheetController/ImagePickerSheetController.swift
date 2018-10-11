@@ -28,7 +28,7 @@ public class ImagePickerSheetController: UIViewController {
 
     private lazy var sheetController: SheetController = {
         let controller = SheetController(previewCollectionView: self.previewCollectionView)
-        controller.displayPreview = self.mediaType != .None;
+        controller.displayPreview = self.mediaType != .none;
         controller.actionHandlingCallback = { [weak self] in
 			self?.dismiss(animated: true, completion: nil)
         }
@@ -90,7 +90,7 @@ public class ImagePickerSheetController: UIViewController {
     
     private lazy var imageManager: PHCachingImageManager? = {
     
-        if self.mediaType == .None {
+        if self.mediaType == .none {
             return nil
         }
         
@@ -168,7 +168,7 @@ public class ImagePickerSheetController: UIViewController {
     
     public required init?(coder aDecoder: NSCoder) {
         
-        self.mediaType = .ImageAndVideo
+        self.mediaType = .imageAndVideo
         super.init(coder: aDecoder)
         initialize()
     }
@@ -199,7 +199,7 @@ public class ImagePickerSheetController: UIViewController {
         
         super.viewWillAppear(animated)
         
-        if mediaType == .None {
+        if mediaType == .none {
 //            previewCollectionView.removeFromSuperview()
             
         } else {
@@ -266,7 +266,7 @@ public class ImagePickerSheetController: UIViewController {
     
     private func prepareAssets() {
         
-        if mediaType == .None {
+        if mediaType == .none {
             return
         }
         
@@ -289,13 +289,13 @@ public class ImagePickerSheetController: UIViewController {
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
         switch mediaType {
-        case .Image:
+        case .image:
 			options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
-        case .Video:
+        case .video:
 			options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.video.rawValue)
-        case .ImageAndVideo:
+        case .imageAndVideo:
 			options.predicate = NSPredicate(format: "mediaType = %d OR mediaType = %d", PHAssetMediaType.image.rawValue, PHAssetMediaType.video.rawValue)
-        case .None: return;
+        case .none: return;
             
         }
         
@@ -446,7 +446,7 @@ public class ImagePickerSheetController: UIViewController {
 extension ImagePickerSheetController: UICollectionViewDataSource {
 	
 	public func numberOfSections(in collectionView: UICollectionView) -> Int {
-		return self.mediaType == .None ? 0 : assets.count
+		return self.mediaType == .none ? 0 : assets.count
 	}
     
 	public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
