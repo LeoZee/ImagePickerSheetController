@@ -13,10 +13,10 @@ private let previewCollectionViewInset: CGFloat = 5
 
 /// The media type an instance of ImagePickerSheetController can display
 public enum ImagePickerMediaType : Int {
-    case Image
-    case Video
-    case ImageAndVideo
-    case None
+    case image
+    case video
+    case imageAndVideo
+    case none
 }
 
 @available(iOS 8.0, *)
@@ -241,7 +241,7 @@ public class ImagePickerSheetController: UIViewController {
     /// Adds an new action.
     /// If the passed action is of type Cancel, any pre-existing Cancel actions will be removed.
     /// Always arranges the actions so that the Cancel action appears at the bottom.
-    public func addAction(action: ImagePickerAction) {
+    public func addAction(_ action: ImagePickerAction) {
         
 		sheetController.addAction(action: action)
         view.setNeedsLayout()
