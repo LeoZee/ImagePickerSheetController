@@ -151,7 +151,7 @@ class SheetController: NSObject {
     
     // MARK: - Actions
     func reloadActionItems() {
-//		sheetCollectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
+		sheetCollectionView.reloadSections(NSIndexSet(index: 1) as IndexSet)
     }
     
     func addAction(action: ImagePickerAction) {
@@ -197,10 +197,10 @@ class SheetController: NSObject {
 
 extension SheetController: UICollectionViewDataSource {
 	
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return numberOfSections()
-    }
-    
+	func numberOfSections(in collectionView: UICollectionView) -> Int {
+		return numberOfSections()
+	}
+	
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return numberOfItemsInSection(section: section)
     }

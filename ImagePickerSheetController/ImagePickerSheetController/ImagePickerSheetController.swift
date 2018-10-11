@@ -125,6 +125,9 @@ public class ImagePickerSheetController: UIViewController {
     }
     
     // MARK: - Public accessable variables
+	
+	/// Set larger bottom margin for Iphone X types
+	public var isIphoneXtype = true
     
     /// Maximum number of images to display (larger amounts can slow down the result!
     public var imageLimit = 50
@@ -363,9 +366,13 @@ public class ImagePickerSheetController: UIViewController {
         reloadMaximumPreviewHeight()
         reloadCurrentPreviewHeight(invalidateLayout: true)
         
-        let sheetHeight = sheetController.preferredSheetHeight
+        var sheetHeight = sheetController.preferredSheetHeight
         let sheetSize = CGSize(width: view.bounds.width, height: sheetHeight)
-        
+		
+		if isIphoneXtype {
+			sheetHeight += 20
+		}
+		
         // This particular order is necessary so that the sheet is layed out
         // correctly with and without an enclosing popover
         preferredContentSize = sheetSize
@@ -437,10 +444,10 @@ public class ImagePickerSheetController: UIViewController {
 // MARK: - UICollectionViewDataSource
 
 extension ImagePickerSheetController: UICollectionViewDataSource {
-    
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return self.mediaType == .None ? 0 : assets.count
-    }
+	
+	public func numberOfSections(in collectionView: UICollectionView) -> Int {
+		return self.mediaType == .None ? 0 : assets.count
+	}
     
 	public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1

@@ -84,7 +84,7 @@ class PreviewSupplementaryView: UICollectionReusableView {
     override func layoutSubviews() {
         super.layoutSubviews()
         button.sizeToFit()
-        button.frame.origin = CGPoint(x: buttonInset.left, y: bounds.height - (button.bounds.height - buttonInset.bottom))
+        button.frame.origin = CGPoint(x: buttonInset.left, y: bounds.height - button.bounds.height - buttonInset.bottom)
         button.layer.cornerRadius = button.bounds.height / 2.0
     }
     
