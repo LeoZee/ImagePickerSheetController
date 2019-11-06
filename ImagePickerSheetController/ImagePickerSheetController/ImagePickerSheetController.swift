@@ -72,6 +72,8 @@ public class ImagePickerSheetController: UIViewController {
     public var actions: [ImagePickerAction] {
         return sheetController.actions
     }
+	
+	public var didChangeSelection: (() -> Void)? = nil
     
     private var selectedAssets:[PHAsset] = [] {
         didSet {
@@ -536,6 +538,8 @@ extension ImagePickerSheetController: UICollectionViewDelegate {
         }
         
         supplementaryViews[indexPath.section]?.selected = true
+		
+		didChangeSelection?()
     }
     
 	public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
